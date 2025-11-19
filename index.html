@@ -139,6 +139,11 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
 
+        .btn-danger {
+            background: linear-gradient(135deg, #ff4757 0%, #ff3838 100%);
+            margin-left: 10px;
+        }
+
         .memory-item {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 20px;
@@ -208,6 +213,27 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .gallery-item .delete-gallery-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .delete-gallery-btn {
+            opacity: 1;
         }
 
         .slider-modal {
@@ -283,7 +309,7 @@
             padding: 20px;
             border-radius: 15px;
             color: white;
-            text-align: center;
+            margin-bottom: 15px;
         }
 
         .music-controls {
@@ -291,6 +317,7 @@
             justify-content: center;
             gap: 15px;
             margin-top: 15px;
+            align-items: center;
         }
 
         .music-controls button {
@@ -320,11 +347,26 @@
             background: #f5f5f5;
             padding: 15px;
             border-radius: 15px;
+            position: relative;
         }
 
         .video-item video {
             width: 100%;
             border-radius: 10px;
+        }
+
+        .video-item .delete-video-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         @keyframes fadeIn {
@@ -349,11 +391,38 @@
             color: #999;
         }
 
-        .empty-state svg {
-            width: 100px;
-            height: 100px;
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            opacity: 0.5;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .backup-section {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 2px solid #667eea;
+        }
+
+        .backup-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .backup-section p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -369,12 +438,14 @@
             <button class="tab-btn" onclick="switchTab('photos')">📷 Foto</button>
             <button class="tab-btn" onclick="switchTab('videos')">🎥 Video</button>
             <button class="tab-btn" onclick="switchTab('music')">🎵 Musik</button>
+            <button class="tab-btn" onclick="switchTab('backup')">💾 Backup</button>
         </div>
 
         <!-- Tab Kenangan -->
         <div id="memories" class="tab-content active">
             <div class="card">
                 <h2 style="margin-bottom: 20px; color: #667eea;">Tambah Kenangan Baru</h2>
+                <div id="memorySuccess" class="success-message"></div>
                 <form id="memoryForm">
                     <div class="form-group">
                         <label>Judul Kenangan</label>
@@ -398,6 +469,7 @@
         <div id="photos" class="tab-content">
             <div class="card">
                 <h2 style="margin-bottom: 20px; color: #667eea;">Upload Foto</h2>
+                <div id="photoSuccess" class="success-message"></div>
                 <div class="form-group">
                     <label>Pilih Foto</label>
                     <input type="file" id="photoInput" accept="image/*" multiple>
@@ -415,6 +487,7 @@
         <div id="videos" class="tab-content">
             <div class="card">
                 <h2 style="margin-bottom: 20px; color: #667eea;">Upload Video</h2>
+                <div id="videoSuccess" class="success-message"></div>
                 <div class="form-group">
                     <label>Pilih Video</label>
                     <input type="file" id="videoInput" accept="video/*" multiple>
@@ -432,6 +505,7 @@
         <div id="music" class="tab-content">
             <div class="card">
                 <h2 style="margin-bottom: 20px; color: #667eea;">Upload Lagu</h2>
+                <div id="musicSuccess" class="success-message"></div>
                 <div class="form-group">
                     <label>Pilih Lagu</label>
                     <input type="file" id="musicInput" accept="audio/*" multiple>
@@ -442,6 +516,32 @@
             <div class="card">
                 <h2 style="margin-bottom: 20px; color: #667eea;">Playlist Kita</h2>
                 <div id="musicPlayer"></div>
+            </div>
+        </div>
+
+        <!-- Tab Backup -->
+        <div id="backup" class="tab-content">
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">💾 Backup & Restore Data</h2>
+                
+                <div class="backup-section">
+                    <h3>📥 Export Data</h3>
+                    <p>Download semua kenangan, foto, video, dan musik dalam satu file backup. File ini bisa kamu simpan dan restore kapan saja!</p>
+                    <button class="btn" onclick="exportData()">Download Backup</button>
+                </div>
+
+                <div class="backup-section" style="margin-top: 20px;">
+                    <h3>📤 Import Data</h3>
+                    <p>Restore data dari file backup yang sudah pernah kamu download sebelumnya.</p>
+                    <input type="file" id="importInput" accept=".json" style="margin-bottom: 15px;">
+                    <button class="btn" onclick="importData()">Restore Backup</button>
+                </div>
+
+                <div class="backup-section" style="margin-top: 20px; background: #fff3cd; border-color: #ffc107;">
+                    <h3 style="color: #856404;">⚠️ Reset Semua Data</h3>
+                    <p style="color: #856404;">Hati-hati! Ini akan menghapus SEMUA data termasuk foto, video, dan musik. Pastikan sudah backup dulu!</p>
+                    <button class="btn btn-danger" onclick="resetAllData()">Hapus Semua Data</button>
+                </div>
             </div>
         </div>
     </div>
@@ -462,52 +562,56 @@
         let videos = [];
         let musicFiles = [];
         let currentPhotoIndex = 0;
-        let currentAudio = null;
 
         // Load data saat halaman dimuat
-        window.addEventListener('load', async () => {
-            await loadData();
+        window.addEventListener('load', () => {
+            loadData();
             displayMemories();
             displayPhotos();
             displayVideos();
             displayMusic();
         });
 
-        async function loadData() {
+        function loadData() {
             try {
-                const memoriesData = await window.storage.get('memories');
-                if (memoriesData) memories = JSON.parse(memoriesData.value);
+                const memoriesData = localStorage.getItem('memories');
+                if (memoriesData) memories = JSON.parse(memoriesData);
             } catch (e) {
                 memories = [];
             }
 
             try {
-                const photosData = await window.storage.get('photos');
-                if (photosData) photos = JSON.parse(photosData.value);
+                const photosData = localStorage.getItem('photos');
+                if (photosData) photos = JSON.parse(photosData);
             } catch (e) {
                 photos = [];
             }
 
             try {
-                const videosData = await window.storage.get('videos');
-                if (videosData) videos = JSON.parse(videosData.value);
+                const videosData = localStorage.getItem('videos');
+                if (videosData) videos = JSON.parse(videosData);
             } catch (e) {
                 videos = [];
             }
 
             try {
-                const musicData = await window.storage.get('music');
-                if (musicData) musicFiles = JSON.parse(musicData.value);
+                const musicData = localStorage.getItem('music');
+                if (musicData) musicFiles = JSON.parse(musicData);
             } catch (e) {
                 musicFiles = [];
             }
         }
 
-        async function saveData() {
-            await window.storage.set('memories', JSON.stringify(memories));
-            await window.storage.set('photos', JSON.stringify(photos));
-            await window.storage.set('videos', JSON.stringify(videos));
-            await window.storage.set('music', JSON.stringify(musicFiles));
+        function saveData() {
+            try {
+                localStorage.setItem('memories', JSON.stringify(memories));
+                localStorage.setItem('photos', JSON.stringify(photos));
+                localStorage.setItem('videos', JSON.stringify(videos));
+                localStorage.setItem('music', JSON.stringify(musicFiles));
+            } catch (e) {
+                console.error('Error saving data:', e);
+                alert('Error: Storage penuh! Coba hapus beberapa file atau backup data.');
+            }
         }
 
         function switchTab(tabName) {
@@ -522,8 +626,17 @@
             event.target.classList.add('active');
         }
 
+        function showSuccess(elementId, message) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.classList.add('show');
+            setTimeout(() => {
+                el.classList.remove('show');
+            }, 3000);
+        }
+
         // Memories Functions
-        document.getElementById('memoryForm').addEventListener('submit', async (e) => {
+        document.getElementById('memoryForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
             const title = document.getElementById('memoryTitle').value;
@@ -542,10 +655,11 @@
             };
             
             memories.unshift(memory);
-            await saveData();
+            saveData();
             displayMemories();
             
             document.getElementById('memoryForm').reset();
+            showSuccess('memorySuccess', '✓ Kenangan berhasil disimpan!');
         });
 
         function displayMemories() {
@@ -566,16 +680,16 @@
             `).join('');
         }
 
-        async function deleteMemory(id) {
+        function deleteMemory(id) {
             if (confirm('Yakin ingin menghapus kenangan ini?')) {
                 memories = memories.filter(m => m.id !== id);
-                await saveData();
+                saveData();
                 displayMemories();
             }
         }
 
         // Photos Functions
-        async function uploadPhotos() {
+        function uploadPhotos() {
             const input = document.getElementById('photoInput');
             const files = input.files;
             
@@ -585,27 +699,27 @@
             }
             
             let processedCount = 0;
+            const totalFiles = files.length;
             
-            for (let file of files) {
+            Array.from(files).forEach((file, index) => {
                 const reader = new FileReader();
-                reader.onload = async (e) => {
+                reader.onload = (e) => {
                     photos.push({
-                        id: Date.now() + Math.random(),
+                        id: Date.now() + index,
                         data: e.target.result
                     });
+                    
                     processedCount++;
                     
-                    // Simpan dan refresh setelah semua file selesai
-                    if (processedCount === files.length) {
-                        await saveData();
+                    if (processedCount === totalFiles) {
+                        saveData();
                         displayPhotos();
-                        alert(`${files.length} foto berhasil diupload! 📷`);
+                        showSuccess('photoSuccess', `✓ ${totalFiles} foto berhasil diupload!`);
+                        input.value = '';
                     }
                 };
                 reader.readAsDataURL(file);
-            }
-            
-            input.value = '';
+            });
         }
 
         function displayPhotos() {
@@ -617,13 +731,24 @@
             }
             
             gallery.innerHTML = photos.map((photo, index) => `
-                <div class="gallery-item" onclick="openSlider(${index})">
-                    <img src="${photo.data}" alt="Memory Photo">
+                <div class="gallery-item">
+                    <button class="delete-gallery-btn" onclick="deletePhoto(${photo.id}, event)">×</button>
+                    <img src="${photo.data}" alt="Memory Photo" onclick="openSlider(${index})">
                 </div>
             `).join('');
         }
 
+        function deletePhoto(id, event) {
+            event.stopPropagation();
+            if (confirm('Hapus foto ini?')) {
+                photos = photos.filter(p => p.id !== id);
+                saveData();
+                displayPhotos();
+            }
+        }
+
         function openSlider(index) {
+            if (photos.length === 0) return;
             currentPhotoIndex = index;
             document.getElementById('sliderImage').src = photos[index].data;
             document.getElementById('sliderModal').classList.add('active');
@@ -634,35 +759,50 @@
         }
 
         function nextPhoto() {
+            if (photos.length === 0) return;
             currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
             document.getElementById('sliderImage').src = photos[currentPhotoIndex].data;
         }
 
         function previousPhoto() {
+            if (photos.length === 0) return;
             currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
             document.getElementById('sliderImage').src = photos[currentPhotoIndex].data;
         }
 
         // Videos Functions
-        async function uploadVideos() {
+        function uploadVideos() {
             const input = document.getElementById('videoInput');
             const files = input.files;
             
-            for (let file of files) {
+            if (files.length === 0) {
+                alert('Pilih video terlebih dahulu!');
+                return;
+            }
+            
+            let processedCount = 0;
+            const totalFiles = files.length;
+            
+            Array.from(files).forEach((file, index) => {
                 const reader = new FileReader();
-                reader.onload = async (e) => {
+                reader.onload = (e) => {
                     videos.push({
-                        id: Date.now() + Math.random(),
+                        id: Date.now() + index,
                         data: e.target.result,
                         name: file.name
                     });
-                    await saveData();
-                    displayVideos();
+                    
+                    processedCount++;
+                    
+                    if (processedCount === totalFiles) {
+                        saveData();
+                        displayVideos();
+                        showSuccess('videoSuccess', `✓ ${totalFiles} video berhasil diupload!`);
+                        input.value = '';
+                    }
                 };
                 reader.readAsDataURL(file);
-            }
-            
-            input.value = '';
+            });
         }
 
         function displayVideos() {
@@ -675,34 +815,56 @@
             
             gallery.innerHTML = videos.map(video => `
                 <div class="video-item">
+                    <button class="delete-video-btn" onclick="deleteVideo(${video.id})">×</button>
                     <video controls>
                         <source src="${video.data}">
                     </video>
-                    <p style="margin-top: 10px; text-align: center;">${video.name}</p>
+                    <p style="margin-top: 10px; text-align: center; color: #667eea; font-weight: 600;">${video.name}</p>
                 </div>
             `).join('');
         }
 
+        function deleteVideo(id) {
+            if (confirm('Hapus video ini?')) {
+                videos = videos.filter(v => v.id !== id);
+                saveData();
+                displayVideos();
+            }
+        }
+
         // Music Functions
-        async function uploadMusic() {
+        function uploadMusic() {
             const input = document.getElementById('musicInput');
             const files = input.files;
             
-            for (let file of files) {
+            if (files.length === 0) {
+                alert('Pilih lagu terlebih dahulu!');
+                return;
+            }
+            
+            let processedCount = 0;
+            const totalFiles = files.length;
+            
+            Array.from(files).forEach((file, index) => {
                 const reader = new FileReader();
-                reader.onload = async (e) => {
+                reader.onload = (e) => {
                     musicFiles.push({
-                        id: Date.now() + Math.random(),
+                        id: Date.now() + index,
                         data: e.target.result,
                         name: file.name
                     });
-                    await saveData();
-                    displayMusic();
+                    
+                    processedCount++;
+                    
+                    if (processedCount === totalFiles) {
+                        saveData();
+                        displayMusic();
+                        showSuccess('musicSuccess', `✓ ${totalFiles} lagu berhasil diupload!`);
+                        input.value = '';
+                    }
                 };
                 reader.readAsDataURL(file);
-            }
-            
-            input.value = '';
+            });
         }
 
         function displayMusic() {
@@ -714,35 +876,103 @@
             }
             
             player.innerHTML = musicFiles.map(music => `
-                <div class="music-player" style="margin-bottom: 15px;">
-                    <h3>🎵 ${music.name}</h3>
-                    <div class="music-controls">
-                        <button onclick="playMusic('${music.data}', ${music.id})">▶️</button>
-                        <button onclick="pauseMusic()">⏸️</button>
-                        <button onclick="stopMusic()">⏹️</button>
+                <div class="music-player">
+                    <h3 style="text-align: center; margin-bottom: 10px;">🎵 ${music.name}</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="${music.data}">
+                    </audio>
+                    <div class="music-controls" style="margin-top: 10px;">
+                        <button onclick="deleteMusic(${music.id})" style="background: #ff4757; color: white; border-radius: 10px; padding: 8px 20px; width: auto; height: auto;">🗑️ Hapus</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function playMusic(data, id) {
-            if (currentAudio) {
-                currentAudio.pause();
-            }
-            currentAudio = new Audio(data);
-            currentAudio.play();
-        }
-
-        function pauseMusic() {
-            if (currentAudio) {
-                currentAudio.pause();
+        function deleteMusic(id) {
+            if (confirm('Hapus lagu ini?')) {
+                musicFiles = musicFiles.filter(m => m.id !== id);
+                saveData();
+                displayMusic();
             }
         }
 
-        function stopMusic() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
+        // Backup & Restore Functions
+        function exportData() {
+            const allData = {
+                memories: memories,
+                photos: photos,
+                videos: videos,
+                music: musicFiles,
+                exportDate: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(allData);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `memory-book-backup-${Date.now()}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            alert('✓ Backup berhasil didownload!');
+        }
+
+        function importData() {
+            const input = document.getElementById('importInput');
+            const file = input.files[0];
+            
+            if (!file) {
+                alert('Pilih file backup terlebih dahulu!');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (confirm('Restore data dari backup? Data yang ada sekarang akan ditimpa!')) {
+                        memories = data.memories || [];
+                        photos = data.photos || [];
+                        videos = data.videos || [];
+                        musicFiles = data.music || [];
+                        
+                        saveData();
+                        
+                        displayMemories();
+                        displayPhotos();
+                        displayVideos();
+                        displayMusic();
+                        
+                        alert('✓ Data berhasil direstore!');
+                        input.value = '';
+                    }
+                } catch (error) {
+                    alert('Error: File backup tidak valid!');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function resetAllData() {
+            if (confirm('⚠️ PERINGATAN! Ini akan menghapus SEMUA data termasuk foto, video, dan musik. Yakin ingin melanjutkan?')) {
+                if (confirm('Apakah kamu sudah backup data? Ini adalah konfirmasi terakhir!')) {
+                    memories = [];
+                    photos = [];
+                    videos = [];
+                    musicFiles = [];
+                    
+                    localStorage.clear();
+                    
+                    displayMemories();
+                    displayPhotos();
+                    displayVideos();
+                    displayMusic();
+                    
+                    alert('✓ Semua data berhasil dihapus!');
+                }
             }
         }
 
