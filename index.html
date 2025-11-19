@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>Pengingat Masa Haid</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#f9c9dd" />
+<link rel="manifest" href="manifest.webmanifest" />
+
+<style>
+*{box-sizing:border-box;font-family:system-ui;}
+body{margin:0;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh;background:radial-gradient(circle,#ffe3f1,#ffeef5);color:#3a2b3b;}
+.app{max-width:480px;width:100%;background:#fff9;backdrop-filter:blur(4px);padding:20px;border-radius:22px;box-shadow:0 10px 30px rgba(240,137,181,0.4);}
+.header{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
+.icon{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#f9c9dd,#f089b5);display:flex;justify-content:center;align-items:center;color:#fff;font-size:22px;box-shadow:0 5px 15px rgba(240,137,181,0.5);}
+h2{margin:0;font-size:20px;}
+small{opacity:.7;}
+label{font-size:14px;margin-top:8px;display:block;}
+input{width:100%;padding:9px 10px;border-radius:10px;border:1px solid #f089b5;color:#3a2b3b;}
+button{margin-top:12px;width:100%;padding:10px;border:none;font-size:15px;font-weight:bold;color:#fff;border-radius:25px;background:linear-gradient(135deg,#f089b5,#ff9bc7);box-shadow:0 8px 20px rgba(240,137,181,0.5);cursor:pointer;}
+.result, .tips{margin-top:14px;padding:10px;border-radius:14px;background:#ffeef5;border:1px solid rgba(240,137,181,.4);font-size:14px;}
+ul{padding-left:18px;margin:4px;}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <div class="icon">♡</div>
+    <div>
+      <h2>Pengingat Haid</h2>
+      <small>Perkiraan siklus & tips nyeri</small>
+    </div>
+  </div>
+
+  <label>Tanggal Haid Terakhir</label>
+  <input type="date" id="tgl" />
+
+  <label>Durasi Siklus (hari)</label>
+  <input type="number" id="siklus" placeholder="28" />
+
+  <button onclick="hitung()">Hitung Perkiraan</button>
+
+  <div id="hasil" class="result" style="display:none;"></div>
+
+  <div class="tips">
+    <b>Tips Nyeri Haid:</b>
+    <ul>
+      <li>Kompres hangat di perut bawah</li>
+      <li>Minum air hangat / teh herbal</li>
+      <li>Istirahat cukup & hindari dingin</li>
+      <li>Peregangan ringan atau jalan santai</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function f(d){return `${String(d.getDate()).padStart(2,"0")}-${String(d.getMonth()+1).padStart(2,"0")}-${d.getFullYear()}`;}
+
+function hitung(){
+  const t=document.getElementById("tgl").value;
+  const s=parseInt(document.getElementById("siklus").value);
+  if(!t||!s){alert("Isi data dulu ya 😊");return;}
+
+  const [y,m,d]=t.split("-").map(Number);
+  const last=new Date(y,m-1,d);
+  const next=new Date(last); next.setDate(next.getDate()+s);
+  const warn1=new Date(next); warn1.setDate(warn1.getDate()-3);
+  const warn2=new Date(next); warn2.setDate(warn2.getDate()+3);
+
+  document.getElementById("hasil").style.display="block";
+  document.getElementById("hasil").innerHTML=
+  `<b>Hasil Perkiraan:</b><br>
+   Haid terakhir: <b>${f(last)}</b><br>
+   Perkiraan haid berikutnya: <b>${f(next)}</b><br>
+   Masa waspada: <b>${f(warn1)} s/d ${f(warn2)}</b>`;
+}
+
+// PWA service worker
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js");}
+</script>
+
+</body>
+</html>
