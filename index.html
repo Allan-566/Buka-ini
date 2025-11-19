@@ -1,139 +1,759 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Untuk Masa Lalu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memory Book</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-* {margin:0; padding:0; box-sizing:border-box; font-family:"Poppins", sans-serif;}
-body {
-  background: linear-gradient(135deg,#3b0d13,#12040a);
-  min-height:100vh;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
 
-/* Floating broken hearts background */
-.heart {
-  position:absolute;
-  width:20px;
-  height:20px;
-  background:rgba(255,90,120,0.45);
-  clip-path: polygon(50% 0%, 61% 15%, 80% 20%, 90% 35%, 90% 50%, 80% 65%, 50% 100%, 20% 65%, 10% 50%, 10% 35%, 20% 20%, 39% 15%);
-  animation: float 8s linear infinite;
-}
-@keyframes float {
-  0% {transform: translateY(100vh) scale(0.6);}
-  100% {transform: translateY(-20vh) scale(1.2);}
-}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-/* Slider container */
-.container {
-  width:90%;
-  max-width:600px;
-  height:65vh;
-  background:rgba(255,255,255,0.08);
-  border-radius:20px;
-  padding:24px;
-  backdrop-filter: blur(8px);
-  box-shadow:0 0 25px rgba(255,100,140,0.3);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  color:#ffd9e6;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
 
-.slide {
-  opacity:0;
-  transform:translateX(40px);
-  transition:0.5s ease;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) translateX(40px);
-  width:80%;
-  font-size:20px;
-  line-height:1.5;
-}
-.slide.active {
-  opacity:1;
-  transform:translate(-50%,-50%) translateX(0);
-}
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: fadeInDown 1s ease;
+        }
 
-.buttons {
-  display:flex;
-  justify-content:space-between;
-  margin-top:20px;
-}
-button {
-  background:#ff6b8b;
-  border:none;
-  padding:10px 22px;
-  color:white;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-  border:2px solid transparent;
-  transition:0.2s;
-}
-button:hover {
-  background:#ff5078;
-  border-color:#ff99b3;
-}
-</style>
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            background: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .memory-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .memory-item h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .memory-item p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .memory-item .date {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #ff3838;
+            transform: scale(1.1);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slider-modal.active {
+            display: flex;
+        }
+
+        .slider-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .slider-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.3);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .slider-btn:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .slider-btn.prev {
+            left: 20px;
+        }
+
+        .slider-btn.next {
+            right: 20px;
+        }
+
+        .close-slider {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.3);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .music-player {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .music-controls button {
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s;
+        }
+
+        .music-controls button:hover {
+            transform: scale(1.1);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .video-item {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .video-item video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <header>
+            <h1>💕 Our Memory Book 💕</h1>
+            <p>Kenangan indah yang tak akan pernah terlupakan</p>
+        </header>
 
-<!-- floating hearts -->
-<script>
-for(let i=0;i<30;i++){
-  let h=document.createElement("div");
-  h.className="heart";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(6+Math.random()*8)+"s";
-  h.style.opacity=0.4+Math.random()*0.6;
-  document.body.appendChild(h);
-}
-</script>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('memories')">📝 Kenangan</button>
+            <button class="tab-btn" onclick="switchTab('photos')">📷 Foto</button>
+            <button class="tab-btn" onclick="switchTab('videos')">🎥 Video</button>
+            <button class="tab-btn" onclick="switchTab('music')">🎵 Musik</button>
+        </div>
 
-<div class="container">
-  <div class="slide active">“Aku belajar tersenyum… meski akhirnya kamu memilih pergi sebelum sempat melihat lukanya.”</div>
-  <div class="slide">“Kita pernah merencanakan masa depan, tapi semesta hanya mengizinkan kita sampai di kenangan.”</div>
-  <div class="slide">“Yang paling menyakitkan bukan kehilanganmu… tapi terbiasa tanpamu.”</div>
-  <div class="slide">“Aku masih mencoba melepaskan, perlahan… meski hatiku tetap berpegang erat pada yang sudah tiada.”</div>
-  <div class="slide">“Semoga kamu bahagia… bahkan jika bahagiamu bukan lagi bersama aku.”</div>
+        <!-- Tab Kenangan -->
+        <div id="memories" class="tab-content active">
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Tambah Kenangan Baru</h2>
+                <form id="memoryForm">
+                    <div class="form-group">
+                        <label>Judul Kenangan</label>
+                        <input type="text" id="memoryTitle" placeholder="Contoh: Kencan Pertama" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Cerita</label>
+                        <textarea id="memoryText" placeholder="Tulis kenangan indah kita di sini..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Simpan Kenangan</button>
+                </form>
+            </div>
 
-  <div class="buttons">
-    <button onclick="prev()">Sebelumnya</button>
-    <button onclick="next()">Berikutnya</button>
-  </div>
-</div>
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Semua Kenangan Kita</h2>
+                <div id="memoriesList"></div>
+            </div>
+        </div>
 
-<script>
-let slides = document.querySelectorAll(".slide");
-let index=0;
+        <!-- Tab Foto -->
+        <div id="photos" class="tab-content">
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Upload Foto</h2>
+                <div class="form-group">
+                    <label>Pilih Foto</label>
+                    <input type="file" id="photoInput" accept="image/*" multiple>
+                </div>
+                <button class="btn" onclick="uploadPhotos()">Upload Foto</button>
+            </div>
 
-function show(i){
-  slides.forEach(s => s.classList.remove("active"));
-  slides[i].classList.add("active");
-}
-function next(){
-  index = (index+1) % slides.length;
-  show(index);
-}
-function prev(){
-  index = (index-1+slides.length) % slides.length;
-  show(index);
-}
-</script>
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Galeri Foto Kita</h2>
+                <div class="gallery" id="photoGallery"></div>
+            </div>
+        </div>
 
+        <!-- Tab Video -->
+        <div id="videos" class="tab-content">
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Upload Video</h2>
+                <div class="form-group">
+                    <label>Pilih Video</label>
+                    <input type="file" id="videoInput" accept="video/*" multiple>
+                </div>
+                <button class="btn" onclick="uploadVideos()">Upload Video</button>
+            </div>
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Video Kita</h2>
+                <div class="video-grid" id="videoGallery"></div>
+            </div>
+        </div>
+
+        <!-- Tab Musik -->
+        <div id="music" class="tab-content">
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Upload Lagu</h2>
+                <div class="form-group">
+                    <label>Pilih Lagu</label>
+                    <input type="file" id="musicInput" accept="audio/*" multiple>
+                </div>
+                <button class="btn" onclick="uploadMusic()">Upload Lagu</button>
+            </div>
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Playlist Kita</h2>
+                <div id="musicPlayer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slider Modal -->
+    <div class="slider-modal" id="sliderModal">
+        <button class="close-slider" onclick="closeSlider()">✕</button>
+        <button class="slider-btn prev" onclick="previousPhoto()">‹</button>
+        <div class="slider-content">
+            <img id="sliderImage" src="" alt="Photo">
+        </div>
+        <button class="slider-btn next" onclick="nextPhoto()">›</button>
+    </div>
+
+    <script>
+        let memories = [];
+        let photos = [];
+        let videos = [];
+        let musicFiles = [];
+        let currentPhotoIndex = 0;
+        let currentAudio = null;
+
+        // Load data saat halaman dimuat
+        window.addEventListener('load', async () => {
+            await loadData();
+            displayMemories();
+            displayPhotos();
+            displayVideos();
+            displayMusic();
+        });
+
+        async function loadData() {
+            try {
+                const memoriesData = await window.storage.get('memories');
+                if (memoriesData) memories = JSON.parse(memoriesData.value);
+            } catch (e) {
+                memories = [];
+            }
+
+            try {
+                const photosData = await window.storage.get('photos');
+                if (photosData) photos = JSON.parse(photosData.value);
+            } catch (e) {
+                photos = [];
+            }
+
+            try {
+                const videosData = await window.storage.get('videos');
+                if (videosData) videos = JSON.parse(videosData.value);
+            } catch (e) {
+                videos = [];
+            }
+
+            try {
+                const musicData = await window.storage.get('music');
+                if (musicData) musicFiles = JSON.parse(musicData.value);
+            } catch (e) {
+                musicFiles = [];
+            }
+        }
+
+        async function saveData() {
+            await window.storage.set('memories', JSON.stringify(memories));
+            await window.storage.set('photos', JSON.stringify(photos));
+            await window.storage.set('videos', JSON.stringify(videos));
+            await window.storage.set('music', JSON.stringify(musicFiles));
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Memories Functions
+        document.getElementById('memoryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('memoryTitle').value;
+            const text = document.getElementById('memoryText').value;
+            
+            const memory = {
+                id: Date.now(),
+                title: title,
+                text: text,
+                date: new Date().toLocaleDateString('id-ID', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })
+            };
+            
+            memories.unshift(memory);
+            await saveData();
+            displayMemories();
+            
+            document.getElementById('memoryForm').reset();
+        });
+
+        function displayMemories() {
+            const list = document.getElementById('memoriesList');
+            
+            if (memories.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>Belum ada kenangan yang tersimpan. Yuk mulai tulis kenangan pertama kita! 💕</p></div>';
+                return;
+            }
+            
+            list.innerHTML = memories.map(memory => `
+                <div class="memory-item">
+                    <button class="delete-btn" onclick="deleteMemory(${memory.id})">×</button>
+                    <h3>${memory.title}</h3>
+                    <p>${memory.text}</p>
+                    <p class="date">${memory.date}</p>
+                </div>
+            `).join('');
+        }
+
+        async function deleteMemory(id) {
+            if (confirm('Yakin ingin menghapus kenangan ini?')) {
+                memories = memories.filter(m => m.id !== id);
+                await saveData();
+                displayMemories();
+            }
+        }
+
+        // Photos Functions
+        async function uploadPhotos() {
+            const input = document.getElementById('photoInput');
+            const files = input.files;
+            
+            if (files.length === 0) {
+                alert('Pilih foto terlebih dahulu!');
+                return;
+            }
+            
+            let processedCount = 0;
+            
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    photos.push({
+                        id: Date.now() + Math.random(),
+                        data: e.target.result
+                    });
+                    processedCount++;
+                    
+                    // Simpan dan refresh setelah semua file selesai
+                    if (processedCount === files.length) {
+                        await saveData();
+                        displayPhotos();
+                        alert(`${files.length} foto berhasil diupload! 📷`);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            input.value = '';
+        }
+
+        function displayPhotos() {
+            const gallery = document.getElementById('photoGallery');
+            
+            if (photos.length === 0) {
+                gallery.innerHTML = '<div class="empty-state"><p>Belum ada foto. Upload foto kenangan kita! 📷</p></div>';
+                return;
+            }
+            
+            gallery.innerHTML = photos.map((photo, index) => `
+                <div class="gallery-item" onclick="openSlider(${index})">
+                    <img src="${photo.data}" alt="Memory Photo">
+                </div>
+            `).join('');
+        }
+
+        function openSlider(index) {
+            currentPhotoIndex = index;
+            document.getElementById('sliderImage').src = photos[index].data;
+            document.getElementById('sliderModal').classList.add('active');
+        }
+
+        function closeSlider() {
+            document.getElementById('sliderModal').classList.remove('active');
+        }
+
+        function nextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            document.getElementById('sliderImage').src = photos[currentPhotoIndex].data;
+        }
+
+        function previousPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            document.getElementById('sliderImage').src = photos[currentPhotoIndex].data;
+        }
+
+        // Videos Functions
+        async function uploadVideos() {
+            const input = document.getElementById('videoInput');
+            const files = input.files;
+            
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    videos.push({
+                        id: Date.now() + Math.random(),
+                        data: e.target.result,
+                        name: file.name
+                    });
+                    await saveData();
+                    displayVideos();
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            input.value = '';
+        }
+
+        function displayVideos() {
+            const gallery = document.getElementById('videoGallery');
+            
+            if (videos.length === 0) {
+                gallery.innerHTML = '<div class="empty-state"><p>Belum ada video. Upload video kenangan kita! 🎥</p></div>';
+                return;
+            }
+            
+            gallery.innerHTML = videos.map(video => `
+                <div class="video-item">
+                    <video controls>
+                        <source src="${video.data}">
+                    </video>
+                    <p style="margin-top: 10px; text-align: center;">${video.name}</p>
+                </div>
+            `).join('');
+        }
+
+        // Music Functions
+        async function uploadMusic() {
+            const input = document.getElementById('musicInput');
+            const files = input.files;
+            
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    musicFiles.push({
+                        id: Date.now() + Math.random(),
+                        data: e.target.result,
+                        name: file.name
+                    });
+                    await saveData();
+                    displayMusic();
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            input.value = '';
+        }
+
+        function displayMusic() {
+            const player = document.getElementById('musicPlayer');
+            
+            if (musicFiles.length === 0) {
+                player.innerHTML = '<div class="empty-state"><p>Belum ada lagu. Upload lagu favorit kita! 🎵</p></div>';
+                return;
+            }
+            
+            player.innerHTML = musicFiles.map(music => `
+                <div class="music-player" style="margin-bottom: 15px;">
+                    <h3>🎵 ${music.name}</h3>
+                    <div class="music-controls">
+                        <button onclick="playMusic('${music.data}', ${music.id})">▶️</button>
+                        <button onclick="pauseMusic()">⏸️</button>
+                        <button onclick="stopMusic()">⏹️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function playMusic(data, id) {
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            currentAudio = new Audio(data);
+            currentAudio.play();
+        }
+
+        function pauseMusic() {
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+        }
+
+        function stopMusic() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+        }
+
+        // Keyboard navigation untuk slider
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('sliderModal').classList.contains('active')) {
+                if (e.key === 'ArrowRight') nextPhoto();
+                if (e.key === 'ArrowLeft') previousPhoto();
+                if (e.key === 'Escape') closeSlider();
+            }
+        });
+    </script>
 </body>
 </html>
