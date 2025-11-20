@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday! 🎂</title>
+    <title>Kuis Berhadiah!</title>
     <style>
         * {
             margin: 0;
@@ -12,595 +12,152 @@
         }
 
         body {
-            font-family: 'Comic Sans MS', 'Arial', sans-serif;
-            background: linear-gradient(135deg, #87CEEB 0%, #4A90E2 50%, #87CEEB 100%);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            background-image: url('https://images.unsplash.com/photo-1516222338250-863216ce01ea?w=1600');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             position: relative;
         }
 
-        /* Gift Box Scene */
-        .gift-scene {
-            text-align: center;
-            z-index: 10;
-            transition: opacity 0.5s ease;
-        }
-
-        .gift-scene.hide {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .gift-text {
-            color: white;
-            font-size: 2em;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: float 2s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .gift-box {
-            width: 200px;
-            height: 200px;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            margin: 0 auto;
-        }
-
-        .gift-box:hover {
-            transform: scale(1.1);
-        }
-
-        .box-bottom {
-            width: 200px;
-            height: 140px;
-            background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
-            position: absolute;
-            bottom: 0;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .box-lid {
-            width: 200px;
-            height: 60px;
-            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+        body::before {
+            content: '';
             position: absolute;
             top: 0;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: all 0.8s ease;
-            transform-origin: bottom;
-        }
-
-        .gift-box.opening .box-lid {
-            transform: rotateX(180deg) translateY(60px);
-        }
-
-        .ribbon-v {
-            width: 20px;
-            height: 200px;
-            background: linear-gradient(to right, #FFD700 0%, #FFA500 100%);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .ribbon-h {
-            width: 200px;
-            height: 20px;
-            background: linear-gradient(to bottom, #FFD700 0%, #FFA500 100%);
-            position: absolute;
-            top: 70px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .bow {
-            width: 60px;
-            height: 60px;
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .bow-left, .bow-right {
-            width: 30px;
-            height: 40px;
-            background: #FFD700;
-            border-radius: 50% 50% 0 50%;
-            position: absolute;
-            top: 10px;
-        }
-
-        .bow-left {
             left: 0;
-            transform: rotate(-45deg);
-        }
-
-        .bow-right {
             right: 0;
-            transform: rotate(45deg) scaleX(-1);
-        }
-
-        .bow-center {
-            width: 20px;
-            height: 20px;
-            background: #FFA500;
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            top: 20px;
-            transform: translateX(-50%);
-        }
-
-        .click-hint {
-            color: white;
-            font-size: 1.2em;
-            margin-top: 30px;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Birthday Card Scene */
-        .birthday-scene {
-            position: absolute;
-            opacity: 0;
-            transform: scale(0);
-            transition: all 1s ease;
-            pointer-events: none;
-        }
-
-        .birthday-scene.show {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: all;
-        }
-
-        /* Floating clouds */
-        .cloud {
-            position: absolute;
-            background: white;
-            border-radius: 100px;
-            opacity: 0.7;
-            animation: floatCloud 20s infinite linear;
-        }
-
-        .cloud::before,
-        .cloud::after {
-            content: '';
-            position: absolute;
-            background: white;
-            border-radius: 100px;
-        }
-
-        .cloud1 {
-            width: 100px;
-            height: 40px;
-            top: 10%;
-            left: -100px;
-        }
-
-        .cloud1::before {
-            width: 50px;
-            height: 50px;
-            top: -25px;
-            left: 10px;
-        }
-
-        .cloud1::after {
-            width: 60px;
-            height: 40px;
-            top: -20px;
-            right: 10px;
-        }
-
-        .cloud2 {
-            width: 120px;
-            height: 50px;
-            top: 30%;
-            left: -120px;
-            animation-delay: 5s;
-        }
-
-        .cloud2::before {
-            width: 60px;
-            height: 60px;
-            top: -30px;
-            left: 15px;
-        }
-
-        .cloud2::after {
-            width: 70px;
-            height: 50px;
-            top: -25px;
-            right: 15px;
-        }
-
-        .cloud3 {
-            width: 80px;
-            height: 35px;
-            top: 70%;
-            left: -80px;
-            animation-delay: 10s;
-        }
-
-        .cloud3::before {
-            width: 40px;
-            height: 40px;
-            top: -20px;
-            left: 10px;
-        }
-
-        .cloud3::after {
-            width: 50px;
-            height: 35px;
-            top: -15px;
-            right: 10px;
-        }
-
-        @keyframes floatCloud {
-            from {
-                left: -200px;
-            }
-            to {
-                left: 110%;
-            }
-        }
-
-        /* Balloons */
-        .balloon {
-            position: absolute;
-            width: 60px;
-            height: 80px;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: rise 15s infinite ease-in;
-            opacity: 0;
-        }
-
-        .birthday-scene.show .balloon {
-            opacity: 1;
-        }
-
-        .balloon::before {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 80px;
-            background: rgba(255,255,255,0.3);
-            bottom: -80px;
-            left: 50%;
-        }
-
-        .balloon1 {
-            background: #FFB6C1;
-            bottom: -100px;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .balloon2 {
-            background: #FFD700;
-            bottom: -100px;
-            left: 30%;
-            animation-delay: 3s;
-        }
-
-        .balloon3 {
-            background: #98D8C8;
-            bottom: -100px;
-            left: 50%;
-            animation-delay: 6s;
-        }
-
-        .balloon4 {
-            background: #F7CAC9;
-            bottom: -100px;
-            left: 70%;
-            animation-delay: 9s;
-        }
-
-        .balloon5 {
-            background: #AED9E0;
-            bottom: -100px;
-            left: 90%;
-            animation-delay: 12s;
-        }
-
-        @keyframes rise {
-            to {
-                bottom: 110%;
-                transform: translateX(-50px);
-            }
-        }
-
-        /* Confetti */
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #f0f;
-            animation: fall 5s infinite linear;
-            opacity: 0;
-        }
-
-        .birthday-scene.show .confetti {
-            opacity: 1;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .container {
-            text-align: center;
-            background: white;
-            padding: 60px 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 600px;
-            z-index: 10;
             position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 500px;
+            animation: bounceIn 1s;
         }
 
-        .bear {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 30px;
-            animation: bounce 2s infinite ease-in-out;
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         h1 {
-            font-size: 3em;
-            color: #4A90E2;
+            color: #ff0066;
+            font-size: 2.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: rainbow 3s infinite;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
         }
 
-        @keyframes rainbow {
-            0%, 100% { color: #4A90E2; }
-            33% { color: #87CEEB; }
-            66% { color: #5DADE2; }
-        }
-
-        .date {
-            font-size: 1.8em;
-            color: #FF69B4;
+        .question {
+            font-size: 1.3em;
+            color: #333;
+            margin: 20px 0;
             font-weight: bold;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff0066, #ff6600);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 0, 102, 0.4);
+        }
+
+        button:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(255, 0, 102, 0.6);
+        }
+
+        .reveal {
+            display: none;
+            animation: slideDown 0.5s;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .emoji {
+            font-size: 4em;
+            margin: 20px 0;
+            animation: spin 2s infinite;
+        }
+
+        @keyframes spin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
         }
 
         .message {
-            font-size: 1.3em;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .cake {
-            font-size: 4em;
+            font-size: 1.8em;
+            color: #ff0066;
+            font-weight: bold;
             margin: 20px 0;
-            animation: rotate 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        @keyframes rotate {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
+        .description {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.6;
+            margin: 15px 0;
         }
 
-        .wishes {
-            font-size: 1.2em;
-            color: #666;
-            font-style: italic;
-            margin-top: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
-            border-radius: 15px;
-            border: 3px dashed #4A90E2;
+        .clown-emoji {
+            display: inline-block;
+            animation: bounce 1s infinite;
         }
 
-        .hearts {
-            font-size: 2em;
-            margin-top: 20px;
-            animation: pulse 1.5s infinite;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* Stars */
-        .star {
-            position: absolute;
-            font-size: 2em;
-            animation: twinkle 2s infinite;
-            opacity: 0;
-        }
-
-        .birthday-scene.show .star {
-            opacity: 0.3;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
-        }
-
-        .star1 { top: 10%; left: 10%; animation-delay: 0s; }
-        .star2 { top: 15%; right: 15%; animation-delay: 0.5s; }
-        .star3 { bottom: 20%; left: 20%; animation-delay: 1s; }
-        .star4 { bottom: 15%; right: 10%; animation-delay: 1.5s; }
     </style>
 </head>
 <body>
-    <!-- Gift Box Scene -->
-    <div class="gift-scene" id="giftScene">
-        <div class="gift-text">✨ Ada Hadiah Untukmu! ✨</div>
-        <div class="gift-box" id="giftBox">
-            <div class="box-lid"></div>
-            <div class="ribbon-v"></div>
-            <div class="ribbon-h"></div>
-            <div class="bow">
-                <div class="bow-left"></div>
-                <div class="bow-right"></div>
-                <div class="bow-center"></div>
-            </div>
-            <div class="box-bottom"></div>
-        </div>
-        <div class="click-hint">👆 Klik kotak hadiah untuk membuka! 🎁</div>
-    </div>
-
-    <!-- Birthday Scene -->
-    <div class="birthday-scene" id="birthdayScene">
-        <!-- Clouds -->
-        <div class="cloud cloud1"></div>
-        <div class="cloud cloud2"></div>
-        <div class="cloud cloud3"></div>
-
-        <!-- Balloons -->
-        <div class="balloon balloon1"></div>
-        <div class="balloon balloon2"></div>
-        <div class="balloon balloon3"></div>
-        <div class="balloon balloon4"></div>
-        <div class="balloon balloon5"></div>
-
-        <!-- Stars -->
-        <div class="star star1">⭐</div>
-        <div class="star star2">✨</div>
-        <div class="star star3">⭐</div>
-        <div class="star star4">✨</div>
-
-        <div class="container">
-            <div class="bear">
-                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Left ear -->
-                    <circle cx="50" cy="50" r="30" fill="#8B4513"/>
-                    <circle cx="50" cy="50" r="20" fill="#CD853F"/>
-                    
-                    <!-- Right ear -->
-                    <circle cx="150" cy="50" r="30" fill="#8B4513"/>
-                    <circle cx="150" cy="50" r="20" fill="#CD853F"/>
-                    
-                    <!-- Head -->
-                    <circle cx="100" cy="100" r="60" fill="#8B4513"/>
-                    
-                    <!-- Face -->
-                    <ellipse cx="100" cy="110" rx="45" ry="50" fill="#CD853F"/>
-                    
-                    <!-- Eyes -->
-                    <circle cx="80" cy="95" r="8" fill="#000"/>
-                    <circle cx="120" cy="95" r="8" fill="#000"/>
-                    <circle cx="82" cy="93" r="3" fill="#fff"/>
-                    <circle cx="122" cy="93" r="3" fill="#fff"/>
-                    
-                    <!-- Nose -->
-                    <ellipse cx="100" cy="115" rx="8" ry="6" fill="#000"/>
-                    
-                    <!-- Mouth -->
-                    <path d="M 90 120 Q 100 130 110 120" stroke="#000" stroke-width="2" fill="none"/>
-                    
-                    <!-- Bow tie -->
-                    <path d="M 70 145 L 85 150 L 70 155 Z" fill="#FF69B4"/>
-                    <path d="M 130 145 L 115 150 L 130 155 Z" fill="#FF69B4"/>
-                    <circle cx="100" cy="150" r="5" fill="#FF1493"/>
-                    
-                    <!-- Body -->
-                    <ellipse cx="100" cy="170" rx="35" ry="25" fill="#8B4513"/>
-                    <ellipse cx="100" cy="170" rx="25" ry="18" fill="#CD853F"/>
-                    
-                    <!-- Heart in hand -->
-                    <text x="95" y="180" font-size="20" fill="#FF1493">❤️</text>
-                </svg>
-            </div>
-
-            <h1>🎉 HAPPY BIRTHDAY! 🎉</h1>
-            
-            <div class="date">📅 1 November 2024</div>
-            
-            <div class="cake">🎂</div>
-            
-            <div class="message">
-                Selamat ulang tahun yang spesial!<br>
-                Semoga hari ini penuh dengan<br>
-                kebahagiaan, tawa, dan kenangan indah! 🎈
-            </div>
-            
-            <div class="wishes">
-                🌟 Semoga di tahun yang baru ini:<br>
-                ✨ Semua impian tercapai<br>
-                🎁 Selalu diberi kesehatan<br>
-                💖 Dikelilingi orang-orang terkasih<br>
-                🌈 Hidup penuh warna dan kebahagiaan<br>
-                🐻 Dan selalu ditemani si beruang lucu!
-            </div>
-            
-            <div class="hearts">💙 💛 💚 💜 💗</div>
+    <div class="container">
+        <h1>🎉 KUIS BERHADIAH! 🎉</h1>
+        <p class="question">Klik tombol di bawah untuk mendapat hadiah spesial! 🎁</p>
+        <button onclick="reveal()">KLAIM HADIAH!</button>
+        
+        <div class="reveal" id="result">
+            <div class="emoji">🤡🎪🤡</div>
+            <p class="message">SELAMAT! KAMU ADALAH...</p>
+            <h2 style="color: #ff0066; font-size: 3em; margin: 20px 0;">
+                ORANG GAMON! <span class="clown-emoji">🤡</span>
+            </h2>
+            <p class="description">
+                Gamon = <strong>GAk MOve ON</strong><br>
+                Alias orang yang susah move on dari masa lalu! 😂<br>
+                <br>
+                Ciri-ciri orang gamon:<br>
+                ✨ Masih stalking mantan di sosmed<br>
+                ✨ Playlist lagu galau 24/7<br>
+                ✨ "Dia yang terbaik" padahal udah 3 tahun lalu<br>
+                ✨ Foto kenangan masih jadi wallpaper<br>
+                <br>
+                <strong>WAKTUNYA MOVE ON, BESTIE! 💪</strong>
+            </p>
+            <button onclick="location.reload()">COBA LAGI? 😏</button>
         </div>
     </div>
-
-    <script>
-        const giftBox = document.getElementById('giftBox');
-        const giftScene = document.getElementById('giftScene');
-        const birthdayScene = document.getElementById('birthdayScene');
-
-        giftBox.addEventListener('click', () => {
-            // Add opening animation to gift box
-            giftBox.classList.add('opening');
-            
-            // Wait for gift box animation to complete
-            setTimeout(() => {
-                // Hide gift scene
-                giftScene.classList.add('hide');
-                
-                // Show birthday scene
-                setTimeout(() => {
-                    birthdayScene.classList.add('show');
-                    createConfetti();
-                }, 500);
-            }, 800);
-        });
-
-        // Generate confetti
-        function createConfetti() {
-            const colors = ['#FF69B4', '#FFD700', '#87CEEB', '#98D8C8', '#F7CAC9', '#AED9E0'];
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animationDelay = Math.random() * 5 + 's';
-                confetti.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                birthdayScene.appendChild(confetti);
-            }
-        }
-    </script>
 </body>
 </html>
