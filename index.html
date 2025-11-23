@@ -3,161 +3,646 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Berhadiah!</title>
+    <title>Pink Paradise 🌸</title>
     <style>
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff69b4, #ffb6c1, #ffc0cb, #ff1493);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url('https://images.unsplash.com/photo-1516222338250-863216ce01ea?w=1600');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
+            overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
-            position: relative;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            max-width: 500px;
-            animation: bounceIn 1s;
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         h1 {
-            color: #ff0066;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .question {
-            font-size: 1.3em;
-            color: #333;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-
-        button {
-            background: linear-gradient(45deg, #ff0066, #ff6600);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2em;
-            border-radius: 50px;
+            text-align: center;
+            color: #ff1493;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.5);
+            margin-bottom: 10px;
+            animation: bounce 2s ease infinite;
             cursor: pointer;
-            margin: 10px;
-            transition: all 0.3s;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(255, 0, 102, 0.4);
+            user-select: none;
         }
 
-        button:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 8px 25px rgba(255, 0, 102, 0.6);
-        }
-
-        .reveal {
-            display: none;
-            animation: slideDown 0.5s;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .emoji {
-            font-size: 4em;
-            margin: 20px 0;
-            animation: spin 2s infinite;
+        /* Animasi untuk header yang diklik */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
         }
 
         @keyframes spin {
-            0%, 100% { transform: rotate(0deg) scale(1); }
+            0% { transform: rotate(0deg) scale(1); }
             50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
         }
 
-        .message {
-            font-size: 1.8em;
-            color: #ff0066;
-            font-weight: bold;
-            margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        .subtitle {
+            text-align: center;
+            color: #ff69b4;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            cursor: pointer;
+            user-select: none;
         }
 
-        .description {
-            font-size: 1.1em;
-            color: #555;
+        /* Grid untuk emoji yang bisa diklik */
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 20px;
+        }
+
+        .emoji-item {
+            font-size: 3em;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            user-select: none;
+            padding: 10px;
+            border-radius: 15px;
+            background: rgba(255, 192, 203, 0.5);
+        }
+
+        .emoji-item:hover {
+            transform: scale(1.3) rotate(15deg);
+            background: rgba(255, 105, 180, 0.7);
+        }
+
+        .emoji-item:active {
+            transform: scale(0.9);
+        }
+
+        /* Card yang bisa diklik dan berubah */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255, 182, 193, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(255, 20, 147, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid #ff69b4;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(255, 20, 147, 0.5);
+        }
+
+        .card.clicked {
+            background: rgba(255, 105, 180, 0.9);
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .card h3 {
+            color: #ff1493;
+            margin-top: 0;
+        }
+
+        .card p {
+            color: #c71585;
             line-height: 1.6;
-            margin: 15px 0;
         }
 
-        .clown-emoji {
-            display: inline-block;
-            animation: bounce 1s infinite;
+        /* Tombol dengan berbagai efek */
+        .pink-button {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(255, 20, 147, 0.4);
+            font-weight: bold;
+            margin: 5px;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .pink-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(255, 20, 147, 0.6);
+        }
+
+        .pink-button:active {
+            transform: scale(0.95);
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 40px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Partikel yang terbang saat klik */
+        .heart {
+            position: fixed;
+            font-size: 30px;
+            color: #ff69b4;
+            animation: float 4s ease-in infinite;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-1000px) rotate(360deg);
+            }
+        }
+
+        /* Counter dengan animasi */
+        .counter {
+            background: rgba(255, 192, 203, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 300px;
+            border: 3px solid #ff1493;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .counter:hover {
+            transform: scale(1.05);
+            background: rgba(255, 105, 180, 0.9);
+        }
+
+        .counter h2 {
+            color: #ff1493;
+            margin: 0 0 10px 0;
+        }
+
+        .counter-value {
+            font-size: 3em;
+            color: #c71585;
+            font-weight: bold;
+        }
+
+        /* Sparkles dengan berbagai ukuran */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            animation: sparkleAnim 1s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1) rotate(180deg);
+            }
+        }
+
+        /* Area interaktif untuk menggambar */
+        .interactive-area {
+            background: rgba(255, 105, 180, 0.3);
+            border: 3px dashed #ff69b4;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px;
+            position: relative;
+        }
+
+        .interactive-area:hover {
+            background: rgba(255, 105, 180, 0.5);
+            transform: scale(1.02);
+        }
+
+        .interactive-area h3 {
+            color: #ff1493;
+            font-size: 1.5em;
+            user-select: none;
+        }
+
+        /* Bubble yang muncul saat klik */
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 182, 193, 0.8), rgba(255, 105, 180, 0.6));
+            pointer-events: none;
+            animation: bubbleFloat 3s ease-out forwards;
+            border: 2px solid rgba(255, 20, 147, 0.5);
+        }
+
+        @keyframes bubbleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0);
+            }
+            50% {
+                transform: translateY(-100px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-300px) scale(0.5);
+            }
+        }
+
+        /* Ripple effect saat klik */
+        .ripple {
+            position: fixed;
+            border-radius: 50%;
+            border: 3px solid #ff69b4;
+            pointer-events: none;
+            animation: rippleAnim 1s ease-out forwards;
+        }
+
+        @keyframes rippleAnim {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+
+        /* Shape yang bisa diklik untuk berubah bentuk */
+        .shape-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .shape {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 8px rgba(255, 20, 147, 0.4);
+        }
+
+        .shape:hover {
+            transform: scale(1.2);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎉 KUIS BERHADIAH! 🎉</h1>
-        <p class="question">Klik tombol di bawah untuk mendapat hadiah spesial! 🎁</p>
-        <button onclick="reveal()">KLAIM HADIAH!</button>
-        
-        <div class="reveal" id="result">
-            <div class="emoji">🤡🎪🤡</div>
-            <p class="message">SELAMAT! KAMU ADALAH...</p>
-            <h2 style="color: #ff0066; font-size: 3em; margin: 20px 0;">
-                ORANG GAMON! <span class="clown-emoji">🤡</span>
-            </h2>
-            <p class="description">
-                Gamon = <strong>GAk MOve ON</strong><br>
-                Alias orang yang susah move on dari masa lalu! 😂<br>
-                <br>
-                Ciri-ciri orang gamon:<br>
-                ✨ Masih stalking mantan di sosmed<br>
-                ✨ Playlist lagu galau 24/7<br>
-                ✨ "Dia yang terbaik" padahal udah 3 tahun lalu<br>
-                ✨ Foto kenangan masih jadi wallpaper<br>
-                <br>
-                <strong>WAKTUNYA MOVE ON, BESTIE! 💪</strong>
-            </p>
-            <button onclick="location.reload()">COBA LAGI? 😏</button>
+        <!-- Header yang bisa diklik untuk berputar -->
+        <h1 onclick="spinTitle(this)">🌸 Pink Paradise 🌸</h1>
+        <p class="subtitle" onclick="changeSubtitle(this)">Klik di mana saja untuk interaksi seru!</p>
+
+        <!-- Grid emoji yang bisa diklik -->
+        <div class="emoji-grid">
+            <div class="emoji-item" onclick="emojiClick(this, '💖')">💖</div>
+            <div class="emoji-item" onclick="emojiClick(this, '🌸')">🌸</div>
+            <div class="emoji-item" onclick="emojiClick(this, '🌷')">🌷</div>
+            <div class="emoji-item" onclick="emojiClick(this, '🎀')">🎀</div>
+            <div class="emoji-item" onclick="emojiClick(this, '💕')">💕</div>
+            <div class="emoji-item" onclick="emojiClick(this, '🦩')">🦩</div>
+            <div class="emoji-item" onclick="emojiClick(this, '🌺')">🌺</div>
+            <div class="emoji-item" onclick="emojiClick(this, '💗')">💗</div>
+        </div>
+
+        <!-- Shape yang bisa berubah bentuk saat diklik -->
+        <div class="shape-box">
+            <div class="shape" onclick="changeShape(this)" style="border-radius: 0;"></div>
+            <div class="shape" onclick="changeShape(this)" style="border-radius: 50%;"></div>
+            <div class="shape" onclick="changeShape(this)" style="border-radius: 0 50% 0 50%;"></div>
+            <div class="shape" onclick="changeShape(this)" style="clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
+        </div>
+
+        <!-- Counter yang bisa diklik -->
+        <div class="counter" onclick="incrementCounter()">
+            <h2>Pink Counter 💕</h2>
+            <div class="counter-value" id="counterValue">0</div>
+            <p style="color: #ff69b4; margin: 10px 0 0 0; font-size: 0.9em;">Klik untuk menambah!</p>
+        </div>
+
+        <!-- Cards yang berubah saat diklik -->
+        <div class="cards-container">
+            <div class="card" onclick="cardClick(this, 0)">
+                <h3>🎨 Card Ajaib</h3>
+                <p>Klik card ini untuk mengubah warnanya! Setiap klik akan memberikan nuansa pink yang berbeda.</p>
+            </div>
+
+            <div class="card" onclick="cardClick(this, 1)">
+                <h3>✨ Card Berkilau</h3>
+                <p>Card ini akan mengeluarkan sparkles pink yang cantik setiap kali kamu klik!</p>
+            </div>
+
+            <div class="card" onclick="cardClick(this, 2)">
+                <h3>💫 Card Bubble</h3>
+                <p>Klik di sini untuk membuat bubble pink yang melayang ke atas dengan indah!</p>
+            </div>
+
+            <div class="card" onclick="cardClick(this, 3)">
+                <h3>🎪 Card Surprise</h3>
+                <p>Card misterius ini punya kejutan khusus untukmu. Coba klik dan lihat apa yang terjadi!</p>
+            </div>
+        </div>
+
+        <!-- Tombol dengan berbagai fungsi -->
+        <div class="button-container">
+            <button class="pink-button" onclick="createHearts()">Hujan Hati 💕</button>
+            <button class="pink-button" onclick="createRipple(event)">Ripple Effect 〰️</button>
+            <button class="pink-button" onclick="changeBackground()">Ubah Background 🎨</button>
+            <button class="pink-button" onclick="createConfetti()">Confetti Pink! 🎉</button>
+            <button class="pink-button" onclick="createBubbles()">Bubble Rain 🫧</button>
+        </div>
+
+        <!-- Area untuk menggambar dengan klik -->
+        <div class="interactive-area" onclick="createSparkles(event)" onmousemove="drawTrail(event)">
+            <h3>Area Interaktif Serbaguna! ✨</h3>
+            <p style="color: #ff69b4;">Klik untuk sparkles, atau gerakkan mouse untuk membuat jejak pink yang cantik!</p>
         </div>
     </div>
+
+    <script>
+        let counter = 0;
+        let isDrawing = false;
+
+        // Fungsi untuk memutar title saat diklik
+        function spinTitle(element) {
+            element.style.animation = 'none';
+            setTimeout(() => {
+                element.style.animation = 'spin 1s ease';
+                setTimeout(() => {
+                    element.style.animation = 'bounce 2s ease infinite';
+                }, 1000);
+            }, 10);
+            createSparkles({clientX: window.innerWidth / 2, clientY: 100});
+        }
+
+        // Fungsi untuk mengubah subtitle
+        function changeSubtitle(element) {
+            const subtitles = [
+                'Klik di mana saja untuk interaksi seru!',
+                'Jelajahi semua elemen pink di halaman ini!',
+                'Setiap klik membawa keajaiban pink!',
+                'Temukan semua fitur interaktif yang tersembunyi!',
+                'Pink Paradise penuh dengan kejutan!'
+            ];
+            const random = Math.floor(Math.random() * subtitles.length);
+            element.textContent = subtitles[random];
+            element.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        // Fungsi untuk interaksi emoji
+        function emojiClick(element, emoji) {
+            // Buat partikel emoji terbang
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'heart';
+                particle.innerHTML = emoji;
+                particle.style.left = element.getBoundingClientRect().left + 'px';
+                particle.style.top = element.getBoundingClientRect().top + 'px';
+                particle.style.animationDelay = (i * 0.1) + 's';
+                document.body.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 4000);
+            }
+
+            // Animasi pada emoji yang diklik
+            element.style.transform = 'scale(1.5) rotate(360deg)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 500);
+        }
+
+        // Fungsi untuk mengubah bentuk shape
+        function changeShape(element) {
+            const shapes = [
+                'border-radius: 0;',
+                'border-radius: 50%;',
+                'border-radius: 0 50% 0 50%;',
+                'clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);',
+                'clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);',
+                'clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);'
+            ];
+            const random = Math.floor(Math.random() * shapes.length);
+            element.style.cssText = 'width: 100px; height: 100px; background: linear-gradient(135deg, #ff69b4, #ff1493); cursor: pointer; transition: all 0.5s ease; box-shadow: 0 4px 8px rgba(255, 20, 147, 0.4);' + shapes[random];
+            
+            createSparkles({clientX: element.getBoundingClientRect().left + 50, clientY: element.getBoundingClientRect().top + 50});
+        }
+
+        // Fungsi untuk counter
+        function incrementCounter() {
+            counter++;
+            document.getElementById('counterValue').textContent = counter;
+            document.getElementById('counterValue').style.animation = 'none';
+            setTimeout(() => {
+                document.getElementById('counterValue').style.animation = 'pulse 0.5s ease';
+            }, 10);
+            createHearts();
+        }
+
+        // Fungsi untuk card click dengan efek berbeda
+        function cardClick(element, cardType) {
+            element.classList.add('clicked');
+            setTimeout(() => element.classList.remove('clicked'), 500);
+
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            if (cardType === 0) {
+                // Ubah warna card
+                const colors = [
+                    'rgba(255, 182, 193, 0.8)',
+                    'rgba(255, 105, 180, 0.8)',
+                    'rgba(255, 192, 203, 0.8)',
+                    'rgba(255, 20, 147, 0.8)'
+                ];
+                element.style.background = colors[Math.floor(Math.random() * colors.length)];
+            } else if (cardType === 1) {
+                // Sparkles
+                createSparkles({clientX: centerX, clientY: centerY});
+            } else if (cardType === 2) {
+                // Bubbles
+                createBubble(centerX, centerY);
+            } else if (cardType === 3) {
+                // Surprise: kombinasi semua efek!
+                createSparkles({clientX: centerX, clientY: centerY});
+                createBubble(centerX, centerY);
+                createRipple({clientX: centerX, clientY: centerY});
+            }
+        }
+
+        // Fungsi untuk membuat hati terbang
+        function createHearts() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    const emojis = ['💖', '💕', '💗', '💓', '💝'];
+                    heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                    heart.style.bottom = '0px';
+                    heart.style.fontSize = (20 + Math.random() * 30) + 'px';
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 100);
+            }
+        }
+
+        // Fungsi untuk mengubah background
+        function changeBackground() {
+            const pinkGradients = [
+                'linear-gradient(135deg, #ff69b4, #ffb6c1, #ffc0cb, #ff1493)',
+                'linear-gradient(135deg, #ff1493, #c71585, #ff69b4, #ffc0cb)',
+                'linear-gradient(135deg, #ffb6c1, #ffc0cb, #ffb6c1, #ff69b4)',
+                'linear-gradient(45deg, #ff69b4, #ff1493, #c71585, #ffb6c1)',
+                'linear-gradient(180deg, #ffc0cb, #ff69b4, #ff1493)',
+                'radial-gradient(circle, #ffb6c1, #ff69b4, #ff1493)'
+            ];
+            const random = pinkGradients[Math.floor(Math.random() * pinkGradients.length)];
+            document.body.style.background = random;
+            document.body.style.backgroundSize = '400% 400%';
+        }
+
+        // Fungsi untuk membuat sparkles
+        function createSparkles(event) {
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = (event.clientX + (Math.random() - 0.5) * 100) + 'px';
+                sparkle.style.top = (event.clientY + (Math.random() - 0.5) * 100) + 'px';
+                sparkle.style.color = ['#ff69b4', '#ff1493', '#ffc0cb', '#ffb6c1'][Math.floor(Math.random() * 4)];
+                sparkle.style.fontSize = (20 + Math.random() * 30) + 'px';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        }
+
+        // Fungsi untuk membuat ripple effect
+        function createRipple(event) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = (event.clientX - 100) + 'px';
+            ripple.style.top = (event.clientY - 100) + 'px';
+            document.body.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 1000);
+        }
+
+        // Fungsi untuk membuat bubble
+        function createBubble(x, y) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = 50 + Math.random() * 50;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = (x - size / 2) + 'px';
+            bubble.style.top = (y - size / 2) + 'px';
+            document.body.appendChild(bubble);
+
+            setTimeout(() => bubble.remove(), 3000);
+        }
+
+        // Fungsi untuk membuat banyak bubble
+        function createBubbles() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = window.innerHeight;
+                    createBubble(x, y);
+                }, i * 100);
+            }
+        }
+
+        // Fungsi untuk membuat confetti
+        function createConfetti() {
+            const emojis = ['💖', '💕', '💗', '✨', '🌸', '🌷', '🎀', '💝'];
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'heart';
+                    confetti.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-50px';
+                    confetti.style.fontSize = (20 + Math.random() * 30) + 'px';
+                    confetti.style.animation = 'float 3s ease-in forwards';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // Fungsi untuk membuat jejak saat mouse bergerak
+        function drawTrail(event) {
+            if (Math.random() > 0.95) { // Hanya sesekali untuk tidak terlalu banyak
+                const trail = document.createElement('div');
+                trail.className = 'sparkle';
+                trail.innerHTML = '✨';
+                trail.style.left = event.clientX + 'px';
+                trail.style.top = event.clientY + 'px';
+                trail.style.color = ['#ff69b4', '#ff1493', '#ffc0cb'][Math.floor(Math.random() * 3)];
+                trail.style.fontSize = '15px';
+                document.body.appendChild(trail);
+
+                setTimeout(() => trail.remove(), 1000);
+            }
+        }
+
+        // Tambahkan hati otomatis setiap beberapa detik
+        setInterval(() => {
+            createHearts();
+        }, 5000);
+    </script>
 </body>
 </html>
